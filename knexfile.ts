@@ -1,21 +1,25 @@
-export default {
-  client: "sqlite3",
+import { Knex } from 'knex'
+
+const config: Knex.Config = {
+  client: 'better-sqlite3',
   connection: {
-    filename: "./scr/database/database.db"
+    filename: './src/database/database.db',
   },
-  useNullAsDefault: true,
   pool: {
-    afterCreate: (connection: any, done: any) => {
-      connection.run("PRAGMA foreign_keys = ON")
+    afterCreate: (connection: any, done: Function) => {
+      connection.pragma('foreign_keys = ON')
       done()
     }
   },
+  useNullAsDefault: true,
   migrations: {
-    extensions: "ts",
-    directory: "./src/database/migrations"
+    extension: 'ts',
+    directory: './src/database/migrations',
   },
   seeds: {
-    extensions: "ts",
-    directory: "./src/database/seeds"
-  }
+    extension: 'ts',
+    directory: './src/database/seeds',
+  },
 }
+
+export default config

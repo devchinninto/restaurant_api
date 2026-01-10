@@ -6,7 +6,8 @@ import { z } from 'zod'
 class ProductController {
   async index(request: Request, response: Response, next: NextFunction) {
     try {
-      response.json({ message: 'ok' })
+      const products = await knex<ProductRepository>('products').select()
+      return response.json(products)
     } catch (error) {
       next(error)
     }

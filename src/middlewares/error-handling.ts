@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { AppError } from "@/utils/AppError.js";
+import { ZodError } from 'zod'
 
 export function errorHandling(error: any, request: Request, response: Response, _: NextFunction) {
   // Custom error handling
@@ -7,6 +8,11 @@ export function errorHandling(error: any, request: Request, response: Response, 
     return response.status(error.statusCode).json({ message: error.message })
   }
 
-  // Else, return generic 500 status code and error message.
+  // Zod validation error
+  if (error instanceof ZodError) {
+    return response.status(400).json({ message: 'Validation error!', issues: error.format() })
+  }
+
+  // Return generic 500 status code and error message.
   return response.status(500).json({ message: error.message })
 }

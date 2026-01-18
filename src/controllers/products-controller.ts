@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { knex } from '@/knex.js'
 import { z } from 'zod'
+import { AppError } from '@/utils/AppError'
 
 export class ProductsController {
   async index(request: Request, response: Response, next: NextFunction) {
@@ -43,6 +44,12 @@ export class ProductsController {
         .parse(request.params.id)
 
       const { name, price } = request.body
+
+      const product = await knex<ProductRepository>('products').select().where({ id }).first()
+
+      if (!product) {
+        throw new AppError('Product not found!')
+      }
 
       await knex<ProductRepository>('products').update({ name, price, updated_at: knex.fn.now() }).where({ id })
 

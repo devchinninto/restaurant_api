@@ -4,7 +4,8 @@ import { ProductsController } from '@/controllers/products-controller.js'
 const productsRoutes = Router()
 const productsController = new ProductsController
 
-productsRoutes.get('/products', productsController.index)
-productsRoutes.post('/products', productsController.create)
+productsRoutes.get('/', productsController.index)
+productsRoutes.post('/', productsController.create)
+productsRoutes.put('/:id', productsController.update)
 
 export { productsRoutes }

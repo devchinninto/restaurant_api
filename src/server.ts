@@ -2,7 +2,7 @@ import express from 'express'
 import { errorHandling } from './middlewares/error-handling.js'
 import { routes } from './routes/index.js'
 import swaggerUi from 'swagger-ui-express'
-import swaggerFile from './config/swagger.json'
+import swaggerFile from './docs/swagger.json'
 
 
 const PORT = 3333

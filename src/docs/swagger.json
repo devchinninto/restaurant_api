@@ -5,10 +5,10 @@
     "title": "Restaurant API",
     "description": "API for handling restaurant tables and order processing"
   },
-  "servers": {
+  "servers": [{
     "url": "http://localhost:3333",
     "description": "Local server"
-  },
+  }],
   "paths": {
     "/products": {
       "post": {
@@ -133,7 +133,26 @@
           }
         }
       }
-    }
+    },
+    "/tables": {
+      "get": {
+        "summary": "Get all tables",
+        "responses": {
+          "200": {
+            "description": "List of all the tables"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "$ref": "#/components/schemas/Tables"
+            }
+          }
+        }
+      }
+    },
+    "/tables_sessions": {}
   },
   "components": {
     "schemas": {
@@ -150,16 +169,54 @@
             "type": "number"
           },
           "created_at": {
-            "type": "number"
+            "type": "timestamp"
           },
           "updated_at": {
-            "type": "number"
+            "type": "timestamp"
           }
         },
         "example": {
           "id": 1,
           "name": "Porção de batatas",
           "price": 56.5
+        }
+      },
+      "Tables": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "table_number": {
+            "type": "number"
+          },
+          "created_at": {
+            "type": "timestamp"
+          },
+          "updated_at": {
+            "type": "timestamp"
+          }
+        },
+        "example": {
+          "id": 1,
+          "table_number": 1
+        }
+      },
+      "Tables Sessions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "table_id": {
+            "type": "number"
+          },
+          "opened_at": {
+            "type": "timestamp"
+          },
+          "closed_at": {
+            "type": "timestamp"
+          }
         }
       }
     }

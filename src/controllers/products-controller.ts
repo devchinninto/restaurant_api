@@ -43,7 +43,12 @@ export class ProductsController {
         .refine((value) => !isNaN(value), { message: 'ID must be a number' }) // Double negative in `!isNaN` makes a positive, that is, if it is a NaN it returns the message. Reads better from inside out. 
         .parse(request.params.id)
 
-      const { name, price } = request.body
+      const bodySchema = z.object({
+        name: z.string().min(6),
+        price: z.number().gt(0)
+      })
+
+      const { name, price } = bodySchema.parse(request.body)
 
       const product = await knex<ProductRepository>('products').select().where({ id }).first()
 

@@ -1,0 +1,30 @@
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        id:
+          type: integer
+          description: The auto-generated id of the product
+        name:
+          type: string
+          description: Product name
+        price:
+          type: number
+          format: float
+          description: Product price
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      example:
+        id: 1
+        name: "Porção de Batatas"
+        price: 45.90
+        created_at: "2024-07-21T18:30:00Z"
+        updated_at: "2024-07-21T18:30:00Z"

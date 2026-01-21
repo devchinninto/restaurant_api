@@ -1,0 +1,106 @@
+paths:
+  /orders:
+    post:
+      tags:
+        - Orders
+      summary: Create a new order
+      description: Adds items to an open table session. Price is fetched automatically from products.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - table_session_id
+                - product_id
+                - quantity
+              properties:
+                table_session_id:
+                  type: integer
+                  example: 1
+                product_id:
+                  type: integer
+                  example: 5
+                quantity:
+                  type: integer
+                  example: 2
+      responses:
+        201:
+          description: Order created successfully
+        400:
+          description: Validation error (e.g. Session closed, Product not found)
+
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      summary: List orders by Session ID
+      description: Returns detailed list of orders for a specific Table Session
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The Table Session ID (not the Order ID)
+      responses:
+        200:
+          description: List of orders with product details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    table_session_id:
+                      type: integer
+                    product_id:
+                      type: integer
+                    name:
+                      type: string
+                      description: Product name (Joined from products table)
+                      example: "Coca-Cola"
+                    quantity:
+                      type: integer
+                    price:
+                      type: number
+                    total:
+                      type: number
+                      description: Calculated total (price * quantity)
+                    created_at:
+                      type: string
+                      format: date-time
+
+  /orders/{id}/total:
+    get:
+      tags:
+        - Orders
+      summary: Get session total
+      description: Calculates the total price of all orders in a specific session
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The Table Session ID
+      responses:
+        200:
+          description: Total calculated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    description: Sum of (price * quantity) for all orders in the session
+                    example: 150.50
+                  quantity:
+                    type: integer
+                    description: Quantity from the query result
+                    example: 2

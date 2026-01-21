@@ -1,0 +1,61 @@
+paths:
+  /tables-sessions:
+    get:
+      tags:
+        - Table Sessions
+      summary: List all sessions
+      description: Returns a list of all table sessions (history)
+      responses:
+        200:
+          description: List retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableSession'
+
+    post:
+      tags:
+        - Table Sessions
+      summary: Open a table session
+      description: Opens a new session for a specific table
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - table_id
+              properties:
+                table_id:
+                  type: integer
+                  description: The ID of the table to open
+                  example: 5
+      responses:
+        201:
+          description: Session opened successfully
+        400:
+          description: Table is already open or does not exist
+
+  /tables-sessions/{id}:
+    patch:
+      tags:
+        - Table Sessions
+      summary: Close a session by Session ID
+      description: Closes the session for the specified Session ID (sets closed_at automatically)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The Session ID to close
+      responses:
+        200:
+          description: Session closed successfully
+        400:
+          description: Table is already closed
+        404:
+          description: Table session not found

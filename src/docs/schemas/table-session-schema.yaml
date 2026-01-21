@@ -1,0 +1,27 @@
+components:
+  schemas:
+    TableSession:
+      type: object
+      required:
+        - table_id
+      properties:
+        id:
+          type: integer
+          description: The session ID
+        table_id:
+          type: integer
+          description: Reference to the Table ID
+        opened_at:
+          type: string
+          format: date-time
+          description: When the table was occupied
+        closed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the table was freed (null if currently open)
+      example:
+        id: 42
+        table_id: 10
+        opened_at: "2024-07-21T19:00:00Z"
+        closed_at: null

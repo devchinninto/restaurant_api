@@ -1,0 +1,94 @@
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: List all products
+      description: Returns a list of all available products in the menu
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: Adds a new item to the menu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - price
+              properties:
+                name:
+                  type: string
+                  example: "X-Salada"
+                price:
+                  type: number
+                  format: float
+                  example: 32.90
+      responses:
+        201:
+          description: Product created successfully
+        400:
+          description: Invalid input
+
+  /products/{id}:
+    put:
+      tags:
+        - Products
+      summary: Update a product
+      description: Updates an existing product by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the product to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "X-Salada Especial"
+                price:
+                  type: number
+                  example: 35.00
+      responses:
+        200:
+          description: Product updated successfully
+        404:
+          description: Product not found
+
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      description: Removes a product from the menu
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the product to delete
+      responses:
+        200:
+          description: Product deleted successfully
+        404:
+          description: Product not found

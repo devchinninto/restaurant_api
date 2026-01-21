@@ -1,0 +1,59 @@
+paths:
+  /tables:
+    get:
+      tags:
+        - Tables
+      summary: List all tables
+      description: Retrieve a list of all restaurant tables
+      responses:
+        200:
+          description: List retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Table'
+
+    post:
+      tags:
+        - Tables
+      summary: Create a new table
+      description: Register a new physical table in the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - table_number
+              properties:
+                table_number:
+                  type: integer
+                  description: The physical number identifying the table
+                  example: 10
+      responses:
+        201:
+          description: Table created successfully
+        400:
+          description: Invalid input (e.g., missing table number)
+
+  /tables/{id}:
+    delete:
+      tags:
+        - Tables
+      summary: Remove a table
+      description: Deletes a table by its ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the table to delete
+      responses:
+        200:
+          description: Table deleted successfully
+        404:
+          description: Table not found
